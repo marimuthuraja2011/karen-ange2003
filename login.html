@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Date</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-login">
+    <div class="container">
+        <div class="login-content">
+            <div class="login-message">
+                <p class="hint-text">Not a spam, just opening your heart.</p>
+                <p class="pin-hint">My phone's PIN is the hint.</p>
+            </div>
+            
+            <div class="login-form">
+                <h2 class="login-title">Enter that Special Date</h2>
+                <form id="loginForm" onsubmit="checkDate(event)">
+                    <div class="date-input-container">
+                        <input type="date" id="dateInput" class="date-input" required>
+                    </div>
+                    <button type="submit" class="login-btn">Blank everything and unlock your Heart</button>
+                </form>
+                <div id="errorMessage" class="error-message"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

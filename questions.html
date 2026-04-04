@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Question for You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-questions">
+    <div class="container">
+        <div class="questions-content">
+            <div class="question-box">
+                <h2 class="question-title">Honey, can we write our love story again… this time the way it deserves to be?</h2>
+                <div class="button-group">
+                    <button class="answer-btn yes-btn" onclick="showResponse('yes')">Yes, idiot come to me ❤️</button>
+                    <button class="answer-btn maybe-btn" onclick="showResponse('maybe')">Maybe 🤍</button>
+                    <button class="answer-btn no-btn" onclick="showResponse('no')">My heart still hurts💔… but it still needs you</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="responseModal">
+        <div class="modal-content">
+            <p id="responseText"></p>
+            <button class="modal-close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
