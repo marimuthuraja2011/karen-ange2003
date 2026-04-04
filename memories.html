@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories - Photo Album</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body class="page-memories">
+    <div class="container">
+        <div class="memories-content">
+            <h1 class="memories-title">Our Memories</h1>
+            <p class="memories-subtitle">A collection of moments we'll cherish forever</p>
+            
+            <div class="flipbook-container">
+                <div id="flipbook" class="st-page-flip">
+                    <!-- Pages will be dynamically generated here -->
+                </div>
+            </div>
+            
+            <div class="continue-container" id="continueContainer" style="display: none;">
+                <button class="continue-btn" onclick="window.location.href='letter.html'">Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Local jQuery for Turn.js -->
+    <script src="jquery.js"></script>
+    <!-- Local Turn.js JS -->
+    <script src="turn.js"></script>
+    <!-- Book functionality -->
+    <script src="assets/js/book.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story Book</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Turn.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/turn.js@4.1.0/lib/turn.css">
+</head>
+<body class="page-book">
+    <div class="container">
+        <div class="book-content">
+            <h1 class="book-title">Every page holds a memory of us</h1>
+            <p class="book-subtitle">Maari & Karen</p>
+            
+            <div class="flipbook-container">
+                <div id="flipbook" class="flipbook">
+                    <!-- Pages will be dynamically generated here -->
+                </div>
+            </div>
+            
+            <div class="book-controls">
+                <button class="book-btn" id="prevBtn">← Previous</button>
+                <span class="page-indicator" id="pageIndicator">Page 1</span>
+                <button class="book-btn" id="nextBtn">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery for Turn.js -->
+    <script src="jquery.js"></script>
+    <!-- Turn.js JS -->
+    <script src="turn.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

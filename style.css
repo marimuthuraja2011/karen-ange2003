@@ -409,7 +409,48 @@ body {
 }
 
 .page-questions {
-    background: linear-gradient(135deg, #8eb1af 0%, #fed6e3 100%);
+    background: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-questions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('images/IMG_6624.JPG');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+}
+
+.page-questions::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('images/IMG_6611.JPG');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+}
+
+.page-questions .questions-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: -1;
 }
 
 .questions-content {
@@ -419,7 +460,8 @@ body {
 }
 
 .question-box {
-    background: linear-gradient(145deg, #fff9f0, #ffe8d6);
+    background: linear-gradient(145deg, rgba(255, 249, 240, 0.9), rgba(255, 232, 214, 0.9));
+    backdrop-filter: blur(10px);
     padding: 5rem 4rem;
     border-radius: 30px;
     box-shadow: 
@@ -430,6 +472,8 @@ body {
     width: 90%;
     border: 3px solid rgba(139, 105, 20, 0.2);
     animation: slideUp 0.8s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .question-title {
@@ -719,6 +763,44 @@ body {
     line-height: 1.6;
 }
 
+.ancient-footer {
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease 2s forwards;
+    text-align: center;
+}
+
+.ancient-text {
+    font-family: "Loved by the King", cursive;
+    font-size: 1.8rem;
+    color: #636e72;
+    font-style: italic;
+    opacity: 0.7;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+    position: relative;
+    padding: 2rem 0;
+}
+
+.ancient-text::before,
+.ancient-text::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #636e72, transparent);
+    opacity: 0.3;
+}
+
+.ancient-text::before {
+    left: -100px;
+}
+
+.ancient-text::after {
+    right: -100px;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -773,6 +855,698 @@ body {
     .future-content {
         padding: 2rem 1rem;
     }
+    
+    .ancient-text {
+        font-size: 1.4rem;
+    }
+    
+    .ancient-text::before,
+    .ancient-text::after {
+        width: 40px;
+    }
+    
+    .ancient-text::before {
+        left: -60px;
+    }
+    
+    .ancient-text::after {
+        right: -60px;
+    }
+}
+
+.page-collage {
+    background: linear-gradient(135deg, #ffeaa7 0%, #dfe6e9 50%, #fab1a0 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 0;
+}
+
+.collage-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.collage-title {
+    font-family: "Loved by the King", cursive;
+    font-size: 3.5rem;
+    color: #2d3436;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.collage-subtitle {
+    font-family: "Loved by the King", cursive;
+    font-size: 1.8rem;
+    color: #636e72;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+
+.collage-grid {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 800px;
+    margin: 0 auto 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.4s forwards;
+}
+
+.collage-item {
+    position: absolute;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.collage-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+}
+
+.collage-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.collage-item:hover .collage-img {
+    transform: scale(1.1);
+}
+
+/* Large focal image */
+.collage-item.large.focal {
+    width: 350px;
+    height: 450px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Medium images */
+.collage-item.medium {
+    width: 200px;
+    height: 250px;
+}
+
+.collage-item.medium.top-right {
+    top: 50px;
+    right: 100px;
+    transform: rotate(5deg);
+}
+
+.collage-item.medium.bottom-left {
+    bottom: 50px;
+    left: 100px;
+    transform: rotate(-5deg);
+}
+
+.collage-item.medium-vertical {
+    width: 180px;
+    height: 300px;
+}
+
+.collage-item.medium-vertical.right {
+    top: 150px;
+    right: 50px;
+    transform: rotate(-8deg);
+}
+
+.collage-item.medium-vertical.left {
+    bottom: 150px;
+    left: 50px;
+    transform: rotate(8deg);
+}
+
+/* Small images */
+.collage-item.small {
+    width: 120px;
+    height: 150px;
+}
+
+.collage-item.small.top-left {
+    top: 80px;
+    left: 80px;
+    transform: rotate(-10deg);
+}
+
+.collage-item.small.top-center {
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) rotate(3deg);
+}
+
+.collage-item.small.bottom-right {
+    bottom: 80px;
+    right: 80px;
+    transform: rotate(10deg);
+}
+
+.collage-item.small.bottom-center {
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+}
+
+.collage-item.small.top-right-corner {
+    top: 20px;
+    right: 20px;
+    transform: rotate(12deg);
+}
+
+.collage-item.small.bottom-left-corner {
+    bottom: 20px;
+    left: 20px;
+    transform: rotate(-12deg);
+}
+
+/* Tiny images */
+.collage-item.tiny {
+    width: 80px;
+    height: 100px;
+}
+
+.collage-item.tiny.center-top {
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-5deg);
+}
+
+.collage-item.tiny.center-bottom {
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%) rotate(5deg);
+}
+
+.collage-item.tiny.accent {
+    width: 60px;
+    height: 80px;
+    top: 100px;
+    right: 200px;
+    transform: rotate(15deg);
+}
+
+/* Textured special image */
+.collage-item.textured {
+    width: 150px;
+    height: 200px;
+    top: 300px;
+    right: 150px;
+    transform: rotate(-15deg);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Image overlays */
+.img-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.collage-item:hover .img-overlay {
+    opacity: 1;
+}
+
+.img-caption {
+    font-family: "Loved by the King", cursive;
+    font-size: 1rem;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Collage footer */
+.collage-footer {
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.6s forwards;
+}
+
+.footer-text {
+    font-family: "Loved by the King", cursive;
+    font-size: 2rem;
+    color: #2d3436;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Collage Modal Styles */
+.collage-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.collage-modal.show {
+    opacity: 1;
+}
+
+.collage-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: white;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close-btn:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.page-book {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 0;
+}
+
+.book-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.book-title {
+    font-family: "Loved by the King", cursive;
+    font-size: 3.5rem;
+    color: #ecf0f1;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.book-subtitle {
+    font-family: "Loved by the King", cursive;
+    font-size: 1.8rem;
+    color: #bdc3c7;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+
+.flipbook-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.4s forwards;
+}
+
+.flipbook {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* DearFlip page styles */
+.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.cover-page {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.cover-content h2 {
+    font-family: "Loved by the King", cursive;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cover-content p {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.page-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.page-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.page-image:hover {
+    transform: scale(1.05);
+}
+
+.page-text {
+    text-align: center;
+}
+
+.page-text h3 {
+    font-family: "Loved by the King", cursive;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.page-text p {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #5d6d7e;
+    line-height: 1.6;
+}
+
+.book-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.book-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(145deg, #8b6914, #d4af37);
+    color: #2c1810;
+    border: 2px solid #5c4a2a;
+    border-radius: 50px;
+    font-family: "Loved by the King", cursive;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 0 #5c4a2a,
+        0 8px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 0 #5c4a2a,
+        0 12px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.book-btn:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 2px 0 #5c4a2a,
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+.book-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.page-indicator {
+    font-family: "Loved by the King", cursive;
+    font-size: 1.3rem;
+    color: #ecf0f1;
+    min-width: 120px;
+}
+
+.book-footer {
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.6s forwards;
+}
+
+.footer-text {
+    font-family: "Loved by the King", cursive;
+    font-size: 2rem;
+    color: #ecf0f1;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Page flip animation */
+.page-flip-left {
+    transform: rotateY(-180deg);
+}
+
+.page-flip-right {
+    transform: rotateY(180deg);
+}
+
+.page-memories {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 50%, #fab1a0 100%);
+    font-family: 'Poppins', sans-serif;
+}
+
+.memories-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.memories-title {
+    font-family: "Loved by the King", cursive;
+    font-size: 3.5rem;
+    color: #2d3436;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.memories-subtitle {
+    font-family: "Loved by the King", cursive;
+    font-size: 1.8rem;
+    color: #636e72;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+
+.flipbook-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 2rem 0;
+    position: relative;
+    animation: fadeInUp 0.8s ease 0.4s forwards;
+}
+
+.st-page-flip {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.st-page-flip:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+/* Turn.js page styles */
+#flipbook .page {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+#flipbook .page img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+}
+
+
+/* Turn.js specific styles - matching example-book */
+#flipbook {
+    background: none !important;
+    height: 600px;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+    /* Remove fixed width - let Turn.js manage it */
+}
+
+/* Specific styling for last cover page */
+#flipbook .page:last-child {
+    width: 450px !important;
+}
+
+#flipbook .page {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#flipbook .hard {
+    background: #c0392b !important;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: "Loved by the King", cursive;
+    padding: 40px;
+}
+
+#flipbook .hard small {
+    font-style: italic;
+    font-weight: lighter;
+    opacity: 0.7;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#flipbook .page small {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #666;
+    font-family: 'Poppins', sans-serif;
+}
+
+.continue-container {
+    text-align: center;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.continue-btn {
+    padding: 1.2rem 3rem;
+    background: linear-gradient(145deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: "Loved by the King", cursive;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 15px rgba(238, 90, 36, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.continue-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 20px rgba(238, 90, 36, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.continue-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 10px rgba(238, 90, 36, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.1);
 }
 
 .page-login {
@@ -947,6 +1721,108 @@ body {
         padding: 1.2rem 1.5rem;
     }
     
+    .collage-title {
+        font-size: 2.5rem;
+    }
+    
+    .collage-subtitle {
+        font-size: 1.4rem;
+    }
+    
+    .collage-grid {
+        height: 600px;
+        max-width: 350px;
+    }
+    
+    .collage-item.large.focal {
+        width: 200px;
+        height: 250px;
+    }
+    
+    .collage-item.medium {
+        width: 100px;
+        height: 125px;
+    }
+    
+    .collage-item.medium-vertical {
+        width: 90px;
+        height: 150px;
+    }
+    
+    .collage-item.small {
+        width: 70px;
+        height: 90px;
+    }
+    
+    .collage-item.tiny {
+        width: 50px;
+        height: 65px;
+    }
+    
+    .footer-text {
+        font-size: 1.5rem;
+    }
+    
+    .memories-title {
+        font-size: 2.5rem;
+    }
+    
+    .memories-subtitle {
+        font-size: 1.4rem;
+    }
+    
+    .flipbook-container {
+        margin: 2rem 0;
+    }
+    
+    .continue-btn {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+    }
+    
+    .book-title {
+        font-size: 2.5rem;
+    }
+    
+    .book-subtitle {
+        font-size: 1.4rem;
+    }
+    
+    .book {
+        width: 100%;
+        max-width: 350px;
+        height: 500px;
+    }
+    
+    .book-page {
+        width: 150px;
+    }
+    
+    .book-spine {
+        width: 50px;
+    }
+    
+    .page-content {
+        padding: 1rem;
+    }
+    
+    .page-text h3 {
+        font-size: 1.3rem;
+    }
+    
+    .page-text p {
+        font-size: 0.9rem;
+    }
+    
+    .book-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .page-indicator {
+        font-size: 1.1rem;
+    }
+    
     .puzzle-board {
         max-width: 320px;
     }
@@ -965,6 +1841,26 @@ body {
     
     .question-title {
         font-size: 1.5rem;
+    }
+    
+    .page-questions::before,
+    .page-questions::after {
+        width: 100%;
+        height: 50%;
+    }
+    
+    .page-questions::before {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+    }
+    
+    .page-questions::after {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
     
     .answer-btn {

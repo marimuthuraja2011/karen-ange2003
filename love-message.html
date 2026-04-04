@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Message</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Crimson Text', serif;
+            color: white;
+            text-align: center;
+        }
+        
+        .message-container {
+            max-width: 800px;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .love-message {
+            font-family: 'Loved by the King', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .call-message {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            font-size: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1.5s ease-out;
+        }
+        
+        .heart {
+            display: inline-block;
+            color: #ff6b6b;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .dots {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .back-link {
+            margin-top: 40px;
+            text-align: center;
+            animation: fadeInUp 2s ease-out;
+        }
+        
+        .back-to-login {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-login:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="message-container">
+        <div class="love-message">
+            Thangapillai, I love you di. <span class="heart">❤️</span>
+        </div>
+        <div class="call-message">
+            Call pannu<span class="dots">...</span>
+        </div>
+    </div>
+    
+    <div class="back-link">
+        <a href="login.html" class="back-to-login">← Back to Login</a>
+    </div>
+</body>
+</html>

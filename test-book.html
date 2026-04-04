@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Book</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #333; }
+        #flipbook { width: 900px; height: 600px; margin: 0 auto; }
+        #flipbook .page { background: white; }
+    </style>
+</head>
+<body>
+    <div id="flipbook"></div>
+    
+    <script src="jquery.js"></script>
+    <script src="turn.js"></script>
+    <script>
+        // Simple test
+        const pages = [
+            '<div class="page hard"><h2>Cover</h2></div>',
+            '<div class="page"><h2>Page 1</h2><p>Content here</p></div>',
+            '<div class="page"><h2>Page 2</h2><p>More content</p></div>',
+            '<div class="page hard"><h2>Back Cover</h2></div>'
+        ];
+        
+        document.getElementById('flipbook').innerHTML = pages.join('');
+        
+        $(document).ready(function() {
+            console.log('jQuery ready');
+            console.log('Turn.js available:', typeof $.fn.turn);
+            
+            if ($.fn.turn) {
+                $('#flipbook').turn({
+                    width: 900,
+                    height: 600,
+                    autoCenter: true,
+                    elevation: 50,
+                    gradients: true,
+                    duration: 600,
+                    pages: 4
+                });
+                console.log('Turn.js initialized');
+            } else {
+                console.error('Turn.js not available');
+            }
+        });
+    </script>
+</body>
+</html>
