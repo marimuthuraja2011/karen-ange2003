@@ -1199,7 +1199,7 @@ body {
     font-family: "Loved by the King", cursive;
     font-size: 1.8rem;
     color: #bdc3c7;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     opacity: 0;
     animation: fadeInUp 0.8s ease 0.2s forwards;
 }
@@ -1208,7 +1208,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 3rem 0;
+    margin: 1rem 0;
     opacity: 0;
     animation: fadeInUp 0.8s ease 0.4s forwards;
 }
@@ -1465,6 +1465,114 @@ body {
     position: relative;
     display: block;
     /* Remove fixed width - let Turn.js manage it */
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .flipbook-container {
+        padding: 10px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+    }
+    
+    #flipbook {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+    }
+    
+    .book-content {
+        padding: 1rem !important;
+        box-sizing: border-box !important;
+    }
+    
+    #flipbook .page {
+        border-radius: 4px !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    
+    #flipbook .page img {
+        border-radius: 4px !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 40% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+    
+    .book-controls {
+        bottom: 10px !important;
+        padding: 8px !important;
+        position: fixed !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 1000 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .book-btn {
+        padding: 6px 10px !important;
+        font-size: 0.8rem !important;
+        border-radius: 15px !important;
+    }
+    
+    .page-indicator {
+        font-size: 0.8rem !important;
+        margin: 0 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .flipbook-container {
+        padding: 5px !important;
+    }
+    
+    #flipbook {
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
+    .book-content {
+        padding: 1rem !important;
+    }
+    
+    .book-controls {
+        flex-direction: row !important;
+        gap: 6px !important;
+        bottom: 8px !important;
+        padding: 6px 8px !important;
+        border-radius: 15px !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+    
+    .book-btn {
+        width: auto !important;
+        max-width: 80px !important;
+        font-size: 0.7rem !important;
+        padding: 4px 8px !important;
+        flex: 1 !important;
+    }
+    
+    .page-indicator {
+        font-size: 0.7rem !important;
+        margin: 0 4px !important;
+        white-space: nowrap !important;
+    }
 }
 
 /* Specific styling for last cover page */

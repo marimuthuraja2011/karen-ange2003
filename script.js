@@ -342,9 +342,10 @@ async function loadBookPages() {
         // Create page HTML for Turn.js
         bookPages = imageFiles.map((filename, index) => {
             const description = getImageDescription(filename, index);
+            
             return `
                 <div class="page" style="position: relative; height: 100%; margin: 0; padding: 0; box-sizing: border-box; overflow: hidden;">
-                    <img src="assets/book/${filename}" alt="Chapter ${index + 1}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; margin: 0; padding: 0;">
+                    <img src="assets/book/${filename}" alt="Chapter ${index + 1}" style="position: absolute; top: 50%; left: 40%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: contain; object-position: center; margin: 0; padding: 0;">
                     <div style="position: absolute; top: 0; ${index % 2 === 0 ? 'right: 0;' : 'left: 0;'} width: 40px; height: 100%; background: linear-gradient(${index % 2 === 0 ? 'to left' : 'to right'}, rgba(0,0,0,0.5), transparent); pointer-events: none;"></div>
                     <div style="position: absolute; bottom: 15px; ${index % 2 === 0 ? 'left: 15px;' : 'right: 15px;'} width: 30px; height: 30px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Crimson Text', serif; font-size: 12px; font-weight: bold; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${index + 2}</div>
                 </div>
@@ -409,6 +410,48 @@ function getImageDescription(filename, index) {
     return descriptions[index % descriptions.length];
 }
 
+// Function to get responsive book dimensions
+function getBookDimensions() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    if (screenWidth <= 480) {
+        // Small mobile - single page mode, full width
+        const availableWidth = screenWidth - 20; // 10px margin each side
+        const pageWidth = availableWidth;
+        // Maintain 3:4 aspect ratio (width:height)
+        const height = Math.round(pageWidth * 4 / 3);
+        
+        return {
+            singleWidth: pageWidth,
+            doubleWidth: pageWidth, // Same as single for mobile
+            height: Math.min(height, screenHeight * 0.6), // Max 60% of screen height
+            displayMode: 'single' // Force single page on mobile
+        };
+    } else if (screenWidth <= 768) {
+        // Tablet - single page mode
+        const availableWidth = screenWidth - 40; // 20px margin each side
+        const pageWidth = availableWidth;
+        // Maintain 3:4 aspect ratio
+        const height = Math.round(pageWidth * 4 / 3);
+        
+        return {
+            singleWidth: pageWidth,
+            doubleWidth: pageWidth,
+            height: Math.min(height, screenHeight * 0.7), // Max 70% of screen height
+            displayMode: 'single' // Force single page on tablet
+        };
+    } else {
+        // Desktop - double page mode (original dimensions)
+        return {
+            singleWidth: 450,
+            doubleWidth: 900,
+            height: 600,
+            displayMode: 'double'
+        };
+    }
+}
+
 function initializeTurnJS() {
     console.log('Initializing Turn.js...');
     const flipbookElement = document.getElementById('flipbook');
@@ -421,8 +464,13 @@ function initializeTurnJS() {
     flipbookElement.innerHTML = bookPages.join('');
     console.log('Set flipbook HTML content');
     
+    // Get responsive dimensions
+    const bookDimensions = getBookDimensions();
+    
     // Add basic styling to make flipbook visible
-    flipbookElement.style.height = '600px';
+    flipbookElement.style.height = bookDimensions.height + 'px';
+    flipbookElement.style.width = 'auto';
+    flipbookElement.style.maxWidth = '100%';
     flipbookElement.style.margin = '0 auto';
     flipbookElement.style.display = 'block';
     flipbookElement.style.position = 'relative';
@@ -430,35 +478,59 @@ function initializeTurnJS() {
     flipbookElement.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.4)';
     flipbookElement.style.borderRadius = '10px';
     flipbookElement.style.overflow = 'hidden';
+    flipbookElement.style.boxSizing = 'border-box';
+    
+    // Apply mobile-specific styles if needed
+    if (window.innerWidth <= 768) {
+        flipbookElement.style.width = '100%';
+        flipbookElement.classList.add('mobile-flipbook');
+    }
+    
     // Remove width styling - let Turn.js manage the width
     console.log('Applied basic flipbook styling');
     
     // Initialize Turn.js
     if (typeof jQuery !== 'undefined' && jQuery.fn.turn) {
         console.log('Turn.js available, initializing...');
+        console.log('Book dimensions:', bookDimensions);
+        console.log('Display mode:', bookDimensions.displayMode);
+        
         flipbookInstance = jQuery('#flipbook');
         
         flipbookInstance.turn({
-            width: 450, // Start with single page width for cover
-            height: 600,
+            width: bookDimensions.singleWidth,
+            height: bookDimensions.height,
             autoCenter: true,
             elevation: 50,
             gradients: true,
             duration: 600,
             pages: bookPages.length,
-            display: 'single', // Start with single page for cover
+            display: bookDimensions.displayMode || 'single', // Use displayMode from dimensions
             when: {
                 turning: function(e, page, view) {
                     console.log('Turning to page:', page, 'View:', view);
                     
-                    // Switch to double page mode when leaving cover
-                    if (page > 1) {
+                    // Get current responsive dimensions
+                    const dimensions = getBookDimensions();
+                    console.log('Current display mode should be:', dimensions.displayMode);
+                    
+                    // Only switch to double page on desktop
+                    if (dimensions.displayMode === 'double' && page > 1) {
                         const currentDisplay = flipbookInstance.turn('display');
                         if (currentDisplay === 'single') {
-                            console.log('Switching to double page mode');
+                            console.log('Switching to double page mode (desktop)');
                             flipbookInstance.turn('display', 'double');
-                            flipbookInstance.turn('size', 900, 600); // Set double page size
-                            flipbookInstance.turn('page', 2); // Go to first content spread
+                            flipbookInstance.turn('size', dimensions.doubleWidth, dimensions.height);
+                            flipbookInstance.turn('page', 2);
+                        }
+                    }
+                    // Ensure mobile stays in single mode
+                    else if (dimensions.displayMode === 'single') {
+                        const currentDisplay = flipbookInstance.turn('display');
+                        if (currentDisplay !== 'single') {
+                            console.log('Forcing single page mode (mobile)');
+                            flipbookInstance.turn('display', 'single');
+                            flipbookInstance.turn('size', dimensions.singleWidth, dimensions.height);
                         }
                     }
                     
@@ -468,13 +540,16 @@ function initializeTurnJS() {
                 turned: function(e, page, view) {
                     console.log('Turned to page:', page, 'View:', view);
                     
-                    // Switch to single page mode when returning to cover
-                    if (page === 1) {
+                    // Get current responsive dimensions
+                    const dimensions = getBookDimensions();
+                    
+                    // Only switch back to single page on desktop when returning to cover
+                    if (dimensions.displayMode === 'double' && page === 1) {
                         const currentDisplay = flipbookInstance.turn('display');
                         if (currentDisplay === 'double') {
-                            console.log('Switching to single page mode for cover');
+                            console.log('Switching to single page mode for cover (desktop)');
                             flipbookInstance.turn('display', 'single');
-                            flipbookInstance.turn('size', 450, 600); // Set single page size (half width)
+                            flipbookInstance.turn('size', dimensions.singleWidth, dimensions.height);
                         }
                     }
                     
@@ -486,10 +561,10 @@ function initializeTurnJS() {
         
         console.log('Turn.js initialized successfully');
         
+        // Apply mobile styles after Turn.js initializes
+        applyMobileStyles();
     } else {
-        console.error('Turn.js library not loaded, using fallback');
-        // Fallback to simple book display
-        initializeSimpleBook();
+        console.error('Turn.js not available');
     }
 }
 
@@ -558,6 +633,29 @@ function setupTurnJSControls() {
     const nextBtn = document.getElementById('nextBtn');
     const flipbookElement = document.getElementById('flipbook');
     
+    // Add window resize handler for responsiveness
+    window.addEventListener('resize', function() {
+        if (flipbookInstance && typeof flipbookInstance.turn === 'function') {
+            const dimensions = getBookDimensions();
+            const currentPage = flipbookInstance.turn('page');
+            const display = flipbookInstance.turn('display');
+            
+            // Update book dimensions based on new screen size
+            if (display === 'single') {
+                flipbookInstance.turn('size', dimensions.singleWidth, dimensions.height);
+            } else {
+                flipbookInstance.turn('size', dimensions.doubleWidth, dimensions.height);
+            }
+            
+            // Update flipbook container for mobile
+            if (window.innerWidth <= 768) {
+                flipbookElement.style.maxWidth = '100%';
+            }
+            
+            console.log('Book resized to:', dimensions);
+        }
+    });
+    
     // Add page click functionality for Turn.js
     if (flipbookInstance && typeof flipbookInstance.turn === 'function') {
         // Turn.js has built-in click handling, but let's ensure it works
@@ -570,17 +668,17 @@ function setupTurnJSControls() {
             const currentPage = flipbookInstance.turn('page');
             const totalPages = flipbookInstance.turn('pages');
             const display = flipbookInstance.turn('display');
+            const dimensions = getBookDimensions();
             
             console.log('Page clicked - Current page:', currentPage, 'Display mode:', display, 'Click position:', x, 'Width:', width);
-            
+                
             // If clicked on right half, go to next page
             if (x > width / 2) {
                 if (currentPage < totalPages) {
-                    // Special handling for single page mode (cover)
-                    if (display === 'single' && currentPage === 1) {
-                        // From cover, switch to double mode and go to first spread
+                    // Only switch to double mode on desktop
+                    if (dimensions.displayMode === 'double' && display === 'single' && currentPage === 1) {
                         flipbookInstance.turn('display', 'double');
-                        flipbookInstance.turn('size', 900, 600); // Use Turn.js size method
+                        flipbookInstance.turn('size', dimensions.doubleWidth, dimensions.height);
                         setTimeout(() => {
                             flipbookInstance.turn('page', 2);
                         }, 100);
@@ -592,12 +690,11 @@ function setupTurnJSControls() {
             // If clicked on left half, go to previous page
             else {
                 if (currentPage > 1) {
-                    // Special handling for double-page mode
-                    if (display === 'double') {
-                        // If we're on the first content spread (pages 2-3), going back should take us to cover
+                    // Only handle double-page mode on desktop
+                    if (dimensions.displayMode === 'double' && display === 'double') {
                         if (currentPage === 2) {
                             flipbookInstance.turn('display', 'single');
-                            flipbookInstance.turn('size', 450, 600); // Use Turn.js size method
+                            flipbookInstance.turn('size', dimensions.singleWidth, dimensions.height);
                             setTimeout(() => {
                                 flipbookInstance.turn('page', 1);
                             }, 100);
@@ -605,30 +702,30 @@ function setupTurnJSControls() {
                             flipbookInstance.turn('previous');
                         }
                     } else {
-                        // Single page mode - normal previous
+                        // Mobile - just go to previous page
                         flipbookInstance.turn('previous');
                     }
                 }
             }
         });
-        
+            
         // Add cursor pointer to indicate clickable
         flipbookElement.style.cursor = 'pointer';
     }
-    
+        
     prevBtn.addEventListener('click', function() {
         if (flipbookInstance) {
             if (typeof flipbookInstance.turn === 'function') {
-                // Turn.js - use same logic as page clicks
                 const currentPage = flipbookInstance.turn('page');
                 const display = flipbookInstance.turn('display');
-                
+                const dimensions = getBookDimensions();
+                    
                 if (currentPage > 1) {
-                    if (display === 'double') {
-                        // If we're on the first content spread (pages 2-3), going back should take us to cover
+                    // Only handle double-page mode on desktop
+                    if (dimensions.displayMode === 'double' && display === 'double') {
                         if (currentPage === 2) {
                             flipbookInstance.turn('display', 'single');
-                            flipbookInstance.turn('size', 450, 600); // Use Turn.js size method
+                            flipbookInstance.turn('size', dimensions.singleWidth, dimensions.height);
                             setTimeout(() => {
                                 flipbookInstance.turn('page', 1);
                             }, 100);
@@ -636,31 +733,27 @@ function setupTurnJSControls() {
                             flipbookInstance.turn('previous');
                         }
                     } else {
-                        // Single page mode - normal previous
+                        // Mobile - just go to previous page
                         flipbookInstance.turn('previous');
                     }
                 }
-            } else if (flipbookInstance.turn) {
-                // Simple book
-                flipbookInstance.turn('prev');
             }
         }
     });
-    
+        
     nextBtn.addEventListener('click', function() {
         if (flipbookInstance) {
             if (typeof flipbookInstance.turn === 'function') {
-                // Turn.js - use same logic as page clicks
                 const currentPage = flipbookInstance.turn('page');
                 const display = flipbookInstance.turn('display');
                 const totalPages = flipbookInstance.turn('pages');
-                
+                const dimensions = getBookDimensions();
+                    
                 if (currentPage < totalPages) {
-                    // Special handling for single page mode (cover)
-                    if (display === 'single' && currentPage === 1) {
-                        // From cover, switch to double mode and go to first spread
+                    // Only switch to double mode on desktop
+                    if (dimensions.displayMode === 'double' && display === 'single' && currentPage === 1) {
                         flipbookInstance.turn('display', 'double');
-                        flipbookInstance.turn('size', 900, 600); // Use Turn.js size method
+                        flipbookInstance.turn('size', dimensions.doubleWidth, dimensions.height);
                         setTimeout(() => {
                             flipbookInstance.turn('page', 2);
                         }, 100);
@@ -668,9 +761,6 @@ function setupTurnJSControls() {
                         flipbookInstance.turn('next');
                     }
                 }
-            } else if (flipbookInstance.turn) {
-                // Simple book
-                flipbookInstance.turn('next');
             }
         }
     });
@@ -706,9 +796,60 @@ document.addEventListener('DOMContentLoaded', function() {
         emailjs.init(PUBLIC_KEY);
         console.log('EmailJS initialized successfully');
     } else {
-        console.log('EmailJS not loaded');
+        console.error('EmailJS not available');
     }
 });
+
+function applyMobileStyles() {
+    if (window.innerWidth <= 768) {
+        console.log('Applying mobile styles to flipbook pages');
+        
+        const flipbookElement = document.getElementById('flipbook');
+        if (!flipbookElement) return;
+        
+        // Apply styles to the flipbook container
+        flipbookElement.style.width = '100%';
+        flipbookElement.style.maxWidth = '100%';
+        
+        // Wait for Turn.js to render pages, then apply styles
+        setTimeout(() => {
+            // Apply styles to all pages
+            const pages = document.querySelectorAll('#flipbook .page');
+            pages.forEach((page, index) => {
+                // Don't set width here - let Turn.js handle it
+                // Just ensure proper styling
+                page.style.margin = '0';
+                page.style.padding = '0';
+                page.style.boxSizing = 'border-box';
+                page.style.overflow = 'hidden';
+                
+                // Apply styles to images within pages - centered both ways
+                const images = page.querySelectorAll('img');
+                images.forEach(img => {
+                    img.style.objectFit = 'contain';
+                    img.style.objectPosition = 'center';
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.position = 'absolute';
+                    img.style.top = '50%';
+                    img.style.left = '40%';
+                    img.style.transform = 'translate(-50%, -50%)';
+                });
+            });
+            
+            // Apply book content padding if exists
+            const bookContent = document.querySelector('.book-content');
+            if (bookContent) {
+                bookContent.style.padding = '1rem';
+            }
+            
+            console.log('Mobile styles applied successfully');
+        }, 100);
+    }
+}
+
+// Remove the createPageWrapper function as it's not needed
+// Turn.js handles the page structure automatically
 
 function showResponse(answer) {
     const modal = document.getElementById('responseModal');
