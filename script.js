@@ -342,10 +342,12 @@ async function loadBookPages() {
         // Create page HTML for Turn.js
         bookPages = imageFiles.map((filename, index) => {
             const description = getImageDescription(filename, index);
+            const isMobile = window.innerWidth <= 768;
+            const leftPosition = isMobile ? '40%' : '50%';
             
             return `
                 <div class="page" style="position: relative; height: 100%; margin: 0; padding: 0; box-sizing: border-box; overflow: hidden;">
-                    <img src="assets/book/${filename}" alt="Chapter ${index + 1}" style="position: absolute; top: 50%; left: 40%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: contain; object-position: center; margin: 0; padding: 0;">
+                    <img src="assets/book/${filename}" alt="Chapter ${index + 1}" style="position: absolute; top: 50%; left: ${leftPosition}; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: contain; object-position: center; margin: 0; padding: 0;">
                     <div style="position: absolute; top: 0; ${index % 2 === 0 ? 'right: 0;' : 'left: 0;'} width: 40px; height: 100%; background: linear-gradient(${index % 2 === 0 ? 'to left' : 'to right'}, rgba(0,0,0,0.5), transparent); pointer-events: none;"></div>
                     <div style="position: absolute; bottom: 15px; ${index % 2 === 0 ? 'left: 15px;' : 'right: 15px;'} width: 30px; height: 30px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Crimson Text', serif; font-size: 12px; font-weight: bold; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${index + 2}</div>
                 </div>
@@ -475,7 +477,7 @@ function initializeTurnJS() {
     flipbookElement.style.display = 'block';
     flipbookElement.style.position = 'relative';
     flipbookElement.style.background = '#fff';
-    flipbookElement.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.4)';
+    flipbookElement.style.boxShadow = '0 30px 80px rgba(0, 0, 0, 0.7), 0 15px 40px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3)';
     flipbookElement.style.borderRadius = '10px';
     flipbookElement.style.overflow = 'hidden';
     flipbookElement.style.boxSizing = 'border-box';
@@ -832,7 +834,7 @@ function applyMobileStyles() {
                     img.style.height = '100%';
                     img.style.position = 'absolute';
                     img.style.top = '50%';
-                    img.style.left = '40%';
+                    img.style.left = window.innerWidth <= 768 ? '40%' : '50%';
                     img.style.transform = 'translate(-50%, -50%)';
                 });
             });
